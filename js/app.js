@@ -24,7 +24,12 @@ import { loadSettings } from "./settings.js";
 import { qs, setText, moonPhaseIcon } from "./ui.js";
 import { startClock } from "./clock.js";
 import { fetchWeather, renderWeather } from "./weather.js";
-import { fetchPrayerTimes, renderPrayerList, updatePrayerHighlight, determineCurrentAndNext } from "./prayers.js";
+import {
+  fetchPrayerTimes,
+  renderPrayerList,
+  updatePrayerHighlight,
+  determineCurrentAndNext,
+} from "./prayers.js";
 import { startCountdown } from "./countdown.js";
 import { fetchHijriDate, computeMoonPhase, moonPhaseLabel } from "./hijri.js";
 
@@ -88,24 +93,34 @@ async function refreshWeather(refs, settings) {
 
 async function refreshPrayers(refs, settings, baseDate = new Date()) {
   try {
+    // Local file read (part of the precached app shell) — no retry
+    // options needed since there's no flaky network call involved.
     const [today, tomorrow] = await Promise.all([
-      fetchPrayerTimes(baseDate, settings, {
-        attempts: settings.app.apiRetryAttempts,
-        delayMs: settings.app.apiRetryDelayMs,
-      }),
-      fetchPrayerTimes(addDays(baseDate, 1), settings, {
-        attempts: settings.app.apiRetryAttempts,
-        delayMs: settings.app.apiRetryDelayMs,
-      }),
+      fetchPrayerTimes(baseDate),
+      fetchPrayerTimes(addDays(baseDate, 1)),
     ]);
 
     state.todaySchedule = today.schedule;
-    state.tomorrowFajr = tomorrow.schedule.find((p) => p.name === "Fajr")?.time ?? null;
+    state.tomorrowFajr =
+      tomorrow.schedule.find((p) => p.name === "Fajr")?.time ?? null;
 
-    renderPrayerList(refs.prayers.list, state.todaySchedule, settings.location.timezone);
+    renderPrayerList(
+      refs.prayers.list,
+      state.todaySchedule,
+      settings.location.timezone,
+    );
     recomputeCurrentNext(refs);
+
+    // Flag the card if we had to fall back to an earlier date's entry
+    // (prayer-timings.json hasn't been extended to cover today yet).
+    refs.prayers.list
+      ?.closest(".card")
+      ?.classList.toggle("is-stale", Boolean(today.stale));
   } catch (err) {
-    console.error("[app] Prayer times unavailable (no network and no cache):", err);
+    console.error(
+      "[app] Prayer times unavailable — check data/prayer-timings.json:",
+      err,
+    );
   }
 }
 
@@ -128,10 +143,18 @@ async function refreshHijri(refs, settings, baseDate = new Date()) {
 }
 
 function recomputeCurrentNext(refs) {
-  const { current, next } = determineCurrentAndNext(state.todaySchedule, new Date(), state.tomorrowFajr);
+  const { current, next } = determineCurrentAndNext(
+    state.todaySchedule,
+    new Date(),
+    state.tomorrowFajr,
+  );
   state.currentPrayer = current;
   state.nextPrayer = next;
-  updatePrayerHighlight(refs.prayers.list, current?.name ?? null, next?.name ?? null);
+  updatePrayerHighlight(
+    refs.prayers.list,
+    current?.name ?? null,
+    next?.name ?? null,
+  );
 }
 
 function addDays(date, n) {
@@ -213,7 +236,7 @@ async function bootstrap() {
       // We just crossed a prayer time boundary — recompute highlight
       // immediately rather than waiting up to a day for fresh data.
       recomputeCurrentNext(refs);
-    }
+    },
   );
   // Keep the highlight correct on every tick too (cheap: class toggles only).
   setInterval(() => recomputeCurrentNext(refs), 1000);
@@ -221,7 +244,7 @@ async function bootstrap() {
   // Weather: every N minutes per settings.
   setInterval(
     () => refreshWeather(refs, settings),
-    settings.app.weatherRefreshMinutes * 60 * 1000
+    settings.app.weatherRefreshMinutes * 60 * 1000,
   );
 
   // Rotating reminders/quotes.

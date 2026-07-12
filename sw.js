@@ -23,7 +23,7 @@
  *    application code, not a generic HTTP cache.
  */
 
-const CACHE_VERSION = "v1.0.1";
+const CACHE_VERSION = "v1.1.0";
 const CACHE_NAME = `prayer-dashboard-${CACHE_VERSION}`;
 
 // Every file required for a fully offline first paint. Kept as an
@@ -48,6 +48,7 @@ const PRECACHE_URLS = [
   "./js/settings.js",
   "./js/ui.js",
   "./data/settings.json",
+  "./data/prayer-timings.json",
   "./assets/icons/icon-192.svg",
   "./assets/icons/icon-512.svg",
   "./assets/icons/icon-maskable-512.svg",
