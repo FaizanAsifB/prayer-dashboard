@@ -23,7 +23,7 @@
  *    application code, not a generic HTTP cache.
  */
 
-const CACHE_VERSION = "v1.0.0";
+const CACHE_VERSION = "v1.0.1";
 const CACHE_NAME = `prayer-dashboard-${CACHE_VERSION}`;
 
 // Every file required for a fully offline first paint. Kept as an
@@ -62,7 +62,7 @@ self.addEventListener("install", (event) => {
       // installing rather than waiting for all tabs to close — a kiosk
       // typically has exactly one long-lived tab, so the default
       // "wait for reload" behaviour would delay updates indefinitely.
-      .then(() => self.skipWaiting())
+      .then(() => self.skipWaiting()),
   );
 });
 
@@ -73,11 +73,14 @@ self.addEventListener("activate", (event) => {
       .then((keys) =>
         Promise.all(
           keys
-            .filter((key) => key.startsWith("prayer-dashboard-") && key !== CACHE_NAME)
-            .map((key) => caches.delete(key))
-        )
+            .filter(
+              (key) =>
+                key.startsWith("prayer-dashboard-") && key !== CACHE_NAME,
+            )
+            .map((key) => caches.delete(key)),
+        ),
       )
-      .then(() => self.clients.claim())
+      .then(() => self.clients.claim()),
   );
 });
 
@@ -109,7 +112,7 @@ self.addEventListener("fetch", (event) => {
         }
         throw new Error("Resource unavailable offline and not cached");
       });
-    })
+    }),
   );
 });
 

@@ -27,10 +27,10 @@ html {
   height: 100vw;
   overflow: hidden;
   transform-origin: top left;
-  transform: rotate(90deg);
+  transform: rotate(-90deg);
   position: absolute;
-  top: 0;
-  left: 100%;
+  top: 100%;
+  left: 0;
 }
 
 body {
