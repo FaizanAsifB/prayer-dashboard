@@ -21,7 +21,11 @@
 :root {
   /* ---- Color: surfaces ---- */
   --color-bg: #0a0f0d;
-  --color-bg-gradient: radial-gradient(120% 90% at 50% -10%, #101c17 0%, #0a0f0d 55%);
+  --color-bg-gradient: radial-gradient(
+    120% 90% at 50% -10%,
+    #101c17 0%,
+    #0a0f0d 55%
+  );
   --color-surface: #101613;
   --color-surface-raised: #141c19;
   --color-border: rgba(255, 255, 255, 0.07);
@@ -46,15 +50,15 @@
   --font-display: "Manrope", "Inter", system-ui, -apple-system, sans-serif;
   --font-body: "Inter", "Manrope", system-ui, -apple-system, sans-serif;
 
-  --fs-clock: clamp(4.5rem, 14vw, 8.5rem);
-  --fs-hero-secondary: clamp(1.1rem, 3vw, 1.6rem);
-  --fs-countdown: clamp(2.5rem, 8vw, 4rem);
-  --fs-temperature: clamp(2.25rem, 7vw, 3.5rem);
-  --fs-section-title: clamp(0.85rem, 2vw, 1rem);
-  --fs-prayer-name: clamp(1.15rem, 3.2vw, 1.5rem);
-  --fs-prayer-time: clamp(1.15rem, 3.2vw, 1.5rem);
-  --fs-body: clamp(0.95rem, 2.4vw, 1.1rem);
-  --fs-caption: clamp(0.75rem, 2vw, 0.9rem);
+  --fs-clock: 6.5rem;
+  --fs-hero-secondary: 1.4rem;
+  --fs-countdown: 3.25rem;
+  --fs-temperature: 3rem;
+  --fs-section-title: 0.95rem;
+  --fs-prayer-name: 1.35rem;
+  --fs-prayer-time: 1.35rem;
+  --fs-body: 1.05rem;
+  --fs-caption: 0.85rem;
 
   --lh-tight: 1.05;
   --lh-normal: 1.4;
@@ -78,7 +82,8 @@
   --radius-lg: 32px;
   --radius-pill: 999px;
 
-  --shadow-card: 0 20px 60px -20px rgba(0, 0, 0, 0.55), 0 2px 10px rgba(0, 0, 0, 0.3);
+  --shadow-card:
+    0 20px 60px -20px rgba(0, 0, 0, 0.55), 0 2px 10px rgba(0, 0, 0, 0.3);
   --shadow-glow-accent: 0 0 24px 0 rgba(52, 230, 160, 0.35);
 
   /* ---- Motion ---- */
@@ -88,8 +93,8 @@
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* ---- Layout ---- */
-  --page-padding: clamp(1.25rem, 5vw, 2.75rem);
-  --card-padding: clamp(1.25rem, 4vw, 2rem);
+  --page-padding: 2rem;
+  --card-padding: 1.75rem;
   --max-content-width: 720px;
 }
 

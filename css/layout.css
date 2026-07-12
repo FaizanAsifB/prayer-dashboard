@@ -22,11 +22,22 @@
   box-sizing: border-box;
 }
 
-html, body {
+html {
+  width: 100vh;
+  height: 100vw;
+  overflow: hidden;
+  transform-origin: top left;
+  transform: rotate(90deg);
+  position: absolute;
+  top: 0;
+  left: 100%;
+}
+
+body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* kiosk display: no scrollbars, content is paginated by design */
+  overflow: hidden;
 }
 
 body {
@@ -36,8 +47,7 @@ body {
 }
 
 .dashboard {
-  height: 100vh;
-  height: 100dvh;
+  height: 100%;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
   gap: var(--space-5);
@@ -107,8 +117,8 @@ body {
 }
 
 .weather__icon {
-  width: clamp(48px, 10vw, 64px);
-  height: clamp(48px, 10vw, 64px);
+  width: 56px;
+  height: 56px;
   color: var(--color-accent);
   flex-shrink: 0;
 }
@@ -152,8 +162,8 @@ body {
 }
 
 .hijri__moon-icon {
-  width: clamp(36px, 8vw, 48px);
-  height: clamp(36px, 8vw, 48px);
+  width: 42px;
+  height: 42px;
   flex-shrink: 0;
 }
 
@@ -165,28 +175,4 @@ body {
   text-align: center;
   gap: var(--space-1);
   padding: var(--space-5) 0;
-}
-
-/* ---- Landscape fallback (secondary target) ---- */
-@media (orientation: landscape) and (min-width: 900px) {
-  .dashboard {
-    max-width: 1400px;
-    grid-template-rows: auto 1fr auto;
-    grid-template-columns: 1fr 1.1fr;
-    grid-template-areas:
-      "hero    hero"
-      "info    main"
-      "footer  footer";
-  }
-  .hero { grid-area: hero; }
-  .info-strip { grid-area: info; grid-template-columns: 1fr; }
-  .main-content { grid-area: main; }
-  .footer { grid-area: footer; }
-}
-
-/* ---- Small portrait screens (dev preview on phones) ---- */
-@media (max-width: 380px) {
-  .info-strip {
-    grid-template-columns: 1fr;
-  }
 }
