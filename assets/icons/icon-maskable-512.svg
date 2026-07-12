@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Maskable icon: full-bleed background with artwork kept inside the
+       ~80% "safe zone" circle that Android's adaptive-icon mask uses,
+       so the crescent never gets clipped on round/squircle launchers. -->
+  <rect width="512" height="512" fill="#0a0f0d"/>
+  <path d="M256 156c-48 29-48 92 0 120-60-4-96-60-80-112 12 16 36 12 44-8 10 20 24-4 36 0Z" fill="#34e6a0"/>
+  <circle cx="345" cy="181" r="12" fill="#34e6a0"/>
+</svg>

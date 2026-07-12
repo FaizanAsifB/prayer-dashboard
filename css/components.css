@@ -1,0 +1,158 @@
+/**
+ * components.css
+ * ---------------------------------------------------------------------------
+ * Signature element: the "prayer rail" — a slim vertical line running
+ * behind the five prayer rows with a glowing accent node beside the
+ * current prayer. It is the one place the accent colour is allowed to
+ * be a genuine glow/shadow rather than flat text colour, which keeps it
+ * reading as the dashboard's single moment of "ambient smart-display"
+ * personality (per the Nest Hub / Frame TV brief) instead of scattering
+ * accent treatment across every card.
+ */
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+  box-shadow: var(--shadow-card);
+}
+
+.card--tight {
+  padding: var(--space-4) var(--space-5);
+}
+
+/* ---- Prayer rows ---- */
+.prayer-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-3) var(--space-4) var(--space-6);
+  border-radius: var(--radius-md);
+  transition: background-color var(--duration-medium) var(--ease-standard);
+}
+
+.prayer-row__rail {
+  position: absolute;
+  left: var(--space-3);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-border-strong);
+}
+
+/* Continuous rail illusion: extend into the gap between rows. */
+.prayer-row:not(:last-child) .prayer-row__rail {
+  bottom: calc(-1 * var(--space-1));
+}
+
+.prayer-row__rail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-text-tertiary);
+  transition: background-color var(--duration-medium) var(--ease-standard),
+    box-shadow var(--duration-medium) var(--ease-standard),
+    transform var(--duration-medium) var(--ease-standard);
+}
+
+.prayer-row__name {
+  color: var(--color-text-secondary);
+  transition: color var(--duration-medium) var(--ease-standard);
+}
+
+.prayer-row__time {
+  transition: color var(--duration-medium) var(--ease-standard);
+}
+
+/* Current prayer: filled surface + accent node + subtle glow. */
+.prayer-row.is-current {
+  background: var(--color-accent-wash);
+}
+
+.prayer-row.is-current .prayer-row__rail::before {
+  background: var(--color-accent);
+  box-shadow: var(--shadow-glow-accent);
+  transform: translate(-50%, -50%) scale(1.35);
+  animation: pulse-node 2.4s var(--ease-standard) infinite;
+}
+
+.prayer-row.is-current .prayer-row__name,
+.prayer-row.is-current .prayer-row__time {
+  color: var(--color-text-primary);
+}
+
+/* Next prayer: quieter cue — outlined node, brighter name only. */
+.prayer-row.is-next .prayer-row__rail::before {
+  background: var(--color-bg);
+  border: 2px solid var(--color-accent-dim);
+}
+
+.prayer-row.is-next .prayer-row__name {
+  color: var(--color-text-primary);
+}
+
+/* ---- Countdown ring accent line above the value ---- */
+.countdown__label {
+  font-size: var(--fs-section-title);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+/* ---- Weather sun-times ---- */
+.sun-time {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  align-items: center;
+}
+
+.sun-time__label {
+  font-size: var(--fs-caption);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.sun-time__value {
+  font-size: var(--fs-body);
+  color: var(--color-text-secondary);
+}
+
+/* ---- Connection status dot ---- */
+.connection-status {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent-dim);
+  opacity: 0.7;
+}
+
+.connection-status.is-offline {
+  background: var(--color-offline);
+  animation: pulse-node 1.6s var(--ease-standard) infinite;
+}
+
+/* ---- Stale-data indicator on the weather card ---- */
+.card.is-stale {
+  border-color: var(--color-warning);
+}
+
+.card.is-stale::after {
+  content: "Showing last known data";
+  display: block;
+  margin-top: var(--space-3);
+  font-size: var(--fs-caption);
+  color: var(--color-warning);
+}

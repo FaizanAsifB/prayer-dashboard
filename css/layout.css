@@ -1,0 +1,192 @@
+/**
+ * layout.css
+ * ---------------------------------------------------------------------------
+ * Layout strategy: the kiosk's target is a 24" monitor in PORTRAIT
+ * orientation at roughly 1080x1920 — so the design is built portrait-
+ * first as a single-column vertical rhythm (hero clock -> hijri/moon ->
+ * weather -> prayers -> countdown -> quote), the natural reading order
+ * for a display people glance at while walking past.
+ *
+ * A landscape fallback (@media orientation: landscape) reflows into two
+ * columns so the same markup still looks intentional if the kiosk is
+ * ever tested on a laptop screen during development — it is not the
+ * primary target and gets a lighter touch.
+ *
+ * CSS Grid over Flexbox for the page shell: the vertical sections have
+ * genuinely different intrinsic heights (hero vs. list vs. footer) and
+ * grid's `fr` units let us give the prayer list room to breathe without
+ * manual flex-basis tuning.
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* kiosk display: no scrollbars, content is paginated by design */
+}
+
+body {
+  background: var(--color-bg);
+  background-image: var(--color-bg-gradient);
+  background-attachment: fixed;
+}
+
+.dashboard {
+  height: 100vh;
+  height: 100dvh;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: var(--space-5);
+  padding: var(--page-padding);
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+}
+
+/* ---- Hero: clock + weekday + date ---- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+}
+
+.hero__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text-tertiary);
+}
+
+/* ---- Info strip: hijri date + moon phase + weather, side by side ---- */
+.info-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.info-strip .card {
+  min-width: 0; /* allow text truncation inside grid children */
+}
+
+/* ---- Main content: prayers + countdown ---- */
+.main-content {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--space-4);
+  min-height: 0; /* allow inner scroll containment if list ever overflows */
+}
+
+.prayer-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  position: relative;
+}
+
+/* ---- Footer: rotating quote ---- */
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-1);
+  padding-bottom: var(--space-2);
+}
+
+/* ---- Weather internals ---- */
+.weather__main {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.weather__icon {
+  width: clamp(48px, 10vw, 64px);
+  height: clamp(48px, 10vw, 64px);
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.weather__sun-times {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.forecast-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.forecast-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.forecast-item__icon {
+  width: 22px;
+  height: 22px;
+  color: var(--color-text-secondary);
+}
+
+/* ---- Hijri / moon card internals ---- */
+.hijri__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.hijri__moon-icon {
+  width: clamp(36px, 8vw, 48px);
+  height: clamp(36px, 8vw, 48px);
+  flex-shrink: 0;
+}
+
+/* ---- Countdown ---- */
+.countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-1);
+  padding: var(--space-5) 0;
+}
+
+/* ---- Landscape fallback (secondary target) ---- */
+@media (orientation: landscape) and (min-width: 900px) {
+  .dashboard {
+    max-width: 1400px;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr 1.1fr;
+    grid-template-areas:
+      "hero    hero"
+      "info    main"
+      "footer  footer";
+  }
+  .hero { grid-area: hero; }
+  .info-strip { grid-area: info; grid-template-columns: 1fr; }
+  .main-content { grid-area: main; }
+  .footer { grid-area: footer; }
+}
+
+/* ---- Small portrait screens (dev preview on phones) ---- */
+@media (max-width: 380px) {
+  .info-strip {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- viewport-fit=cover + no user scaling: this is a fixed kiosk display,
+       not a page anyone pinches/zooms on. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0f0d" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="description" content="A prayer times and weather kiosk dashboard." />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.svg" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Prayer Dashboard" />
+
+  <title>Prayer Dashboard</title>
+
+  <!-- Stylesheet load order matters: tokens first, then typography (which
+       consumes the tokens), then layout/components/animations. -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/typography.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+  <!-- role="status" region for offline indicator; kept off the reading
+       order since it's a passive ambient cue, not content. -->
+  <div id="connection-status" class="connection-status" role="status" aria-label="Connection status"></div>
+
+  <main class="dashboard">
+    <!-- ============ HERO: live clock ============ -->
+    <section class="hero" aria-label="Current time">
+      <p class="clock__time numeral" id="clock-time">--:--:--</p>
+      <div class="hero__meta">
+        <span class="clock__weekday" id="clock-weekday">&nbsp;</span>
+        <span aria-hidden="true">&middot;</span>
+        <span class="clock__date" id="clock-date">&nbsp;</span>
+      </div>
+    </section>
+
+    <!-- ============ INFO STRIP: Hijri date + Weather ============ -->
+    <section class="info-strip" aria-label="Islamic date and weather">
+      <article class="card card--tight hijri" aria-label="Islamic date">
+        <h2 class="section-title">Islamic Date</h2>
+        <div class="hijri__row">
+          <span class="hijri__moon-icon" id="moon-icon" aria-hidden="true"></span>
+          <div>
+            <p id="hijri-date" class="numeral">&nbsp;</p>
+            <p class="sun-time__label" id="moon-label">&nbsp;</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card card--tight weather" id="weather-card" aria-label="Weather">
+        <h2 class="section-title">Weather</h2>
+        <div class="weather__main">
+          <span class="weather__icon" id="weather-icon" aria-hidden="true"></span>
+          <div>
+            <p class="weather__temperature numeral" id="weather-temperature">--&deg;</p>
+            <p class="sun-time__label" id="weather-description">Loading&hellip;</p>
+          </div>
+        </div>
+        <div class="weather__sun-times">
+          <div class="sun-time">
+            <span class="sun-time__label">Sunrise</span>
+            <span class="sun-time__value numeral" id="weather-sunrise">--:--</span>
+          </div>
+          <div class="sun-time">
+            <span class="sun-time__label">Sunset</span>
+            <span class="sun-time__value numeral" id="weather-sunset">--:--</span>
+          </div>
+        </div>
+        <div class="forecast-strip" id="weather-forecast-strip" aria-label="Hourly forecast"></div>
+      </article>
+    </section>
+
+    <!-- ============ MAIN: prayer list + countdown ============ -->
+    <section class="main-content" aria-label="Prayer times">
+      <article class="card">
+        <h2 class="section-title">Today&rsquo;s Prayers</h2>
+        <div class="prayer-list" id="prayer-list" role="list">
+          <!-- Rows injected dynamically by prayers.js — never hardcoded. -->
+        </div>
+      </article>
+
+      <article class="card countdown" aria-live="polite">
+        <span class="countdown__label" id="countdown-label">Loading&hellip;</span>
+        <span class="countdown__value numeral" id="countdown-value">--:--</span>
+      </article>
+    </section>
+
+    <!-- ============ FOOTER: rotating reminder ============ -->
+    <footer class="footer" aria-label="Daily reminder">
+      <div class="card card--tight">
+        <p class="quote__text" id="quote-text">&nbsp;</p>
+        <p class="quote__source" id="quote-source">&nbsp;</p>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Single entry-point module; every other JS file is imported from
+       here via ES module imports, so this is the only <script> tag the
+       page needs. -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

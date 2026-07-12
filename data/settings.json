@@ -1,0 +1,40 @@
+{
+  "location": {
+    "name": "Stockholm, Sweden",
+    "latitude": 59.3293,
+    "longitude": 18.0686,
+    "timezone": "Europe/Stockholm"
+  },
+  "prayer": {
+    "_comment_method": "AlAdhan calculation method id. 3 = Muslim World League. See https://aladhan.com/calculation-methods",
+    "method": 3,
+    "_comment_madhab": "0 = Shafi/Maliki/Hanbali (standard Asr), 1 = Hanafi (later Asr)",
+    "madhab": 0,
+    "tune": "0,0,0,0,0,0,0,0,0"
+  },
+  "weather": {
+    "_comment_units": "metric or imperial. Controls temperature_unit passed to Open-Meteo",
+    "units": "metric"
+  },
+  "app": {
+    "clockIntervalMs": 1000,
+    "weatherRefreshMinutes": 30,
+    "prayerRefreshHours": 24,
+    "quoteRotationSeconds": 45,
+    "cacheVersion": "v1",
+    "apiRetryAttempts": 3,
+    "apiRetryDelayMs": 2000
+  },
+  "quotes": [
+    { "text": "And whoever relies upon Allah - then He is sufficient for him.", "source": "Qur'an 65:3" },
+    { "text": "Indeed, with hardship comes ease.", "source": "Qur'an 94:6" },
+    { "text": "The best of you are those who are best to their families.", "source": "Prophet Muhammad ﷺ" },
+    { "text": "So remember Me; I will remember you.", "source": "Qur'an 2:152" },
+    { "text": "Verily, in the remembrance of Allah do hearts find rest.", "source": "Qur'an 13:28" },
+    { "text": "Allah does not burden a soul beyond what it can bear.", "source": "Qur'an 2:286" },
+    { "text": "The world is a prison for the believer and a paradise for the disbeliever.", "source": "Prophet Muhammad ﷺ" },
+    { "text": "And He found you lost and guided you.", "source": "Qur'an 93:7" },
+    { "text": "Speak good or remain silent.", "source": "Prophet Muhammad ﷺ" },
+    { "text": "My mercy encompasses all things.", "source": "Qur'an 7:156" }
+  ]
+}

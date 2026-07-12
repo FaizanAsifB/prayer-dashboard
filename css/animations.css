@@ -1,0 +1,77 @@
+/**
+ * animations.css
+ * ---------------------------------------------------------------------------
+ * All keyframes here animate only `opacity` and `transform` — the two
+ * properties the compositor can handle without triggering layout or
+ * paint — which is what keeps these smooth on the Pi Zero 2 W's modest
+ * GPU. Nothing animates width/height/top/left.
+ *
+ * Per the brief: motion is used in exactly two places — the current-
+ * prayer node's ambient pulse (components.css references this keyframe)
+ * and the quote card's cross-fade on rotation. Everything else on the
+ * page is static, which is deliberate: a kiosk display people glance at
+ * for two seconds should not be visually busy.
+ */
+
+@keyframes pulse-node {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 0 rgba(52, 230, 160, 0));
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Applied once on initial load to the top-level cards for a gentle
+   settle-in; removed usefulness after first paint so it never re-fires. */
+.card,
+.hero {
+  animation: fade-in-up var(--duration-slow) var(--ease-standard) both;
+}
+
+.info-strip .card:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.main-content .card {
+  animation-delay: 120ms;
+}
+
+.footer .card {
+  animation-delay: 180ms;
+}
+
+/* Quote rotation cross-fade, toggled by app.js via the is-fading class. */
+.quote__text {
+  transition: opacity var(--duration-medium) var(--ease-standard);
+  opacity: 1;
+}
+
+.quote__text.is-fading {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .hero {
+    animation: none;
+  }
+  .prayer-row.is-current .prayer-row__rail::before {
+    animation: none;
+  }
+  .connection-status.is-offline {
+    animation: none;
+  }
+}

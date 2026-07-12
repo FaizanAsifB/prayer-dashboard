@@ -1,0 +1,122 @@
+/**
+ * typography.css
+ * ---------------------------------------------------------------------------
+ * Font loading strategy: self-hosted variable fonts under assets/fonts/,
+ * NOT a Google Fonts <link>. Two reasons specific to this deployment:
+ *   1. The kiosk may boot before Wi-Fi association completes — a remote
+ *      font request would block first paint or silently fall back
+ *      inconsistently.
+ *   2. The service worker can only guarantee offline availability for
+ *      assets it controls; a cross-origin font request adds a second
+ *      cache/CORS concern for no benefit.
+ * If the .woff2 files are absent (e.g. cloned without running the fetch
+ * step in README.md), the font-family stack falls back gracefully to
+ * system-ui, which on Raspberry Pi OS Lite resolves to a clean sans.
+ */
+
+@font-face {
+  font-family: "Manrope";
+  src: url("../assets/fonts/Manrope-Variable.woff2") format("woff2-variations"),
+    url("../assets/fonts/Manrope-Variable.woff2") format("woff2");
+  font-weight: 300 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/Inter-Variable.woff2") format("woff2-variations"),
+    url("../assets/fonts/Inter-Variable.woff2") format("woff2");
+  font-weight: 300 800;
+  font-display: swap;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  color: var(--color-text-primary);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  margin: 0;
+}
+
+.section-title {
+  font-family: var(--font-body);
+  font-size: var(--fs-section-title);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.numeral {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.clock__time {
+  font-size: var(--fs-clock);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.clock__weekday {
+  font-size: var(--fs-hero-secondary);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.clock__date {
+  font-size: var(--fs-body);
+  color: var(--color-text-tertiary);
+}
+
+.countdown__value {
+  font-size: var(--fs-countdown);
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.weather__temperature {
+  font-size: var(--fs-temperature);
+  font-weight: 700;
+}
+
+.prayer-row__name {
+  font-size: var(--fs-prayer-name);
+  font-weight: 600;
+  font-family: var(--font-display);
+}
+
+.prayer-row__time {
+  font-size: var(--fs-prayer-time);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.quote__text {
+  font-size: var(--fs-body);
+  font-style: italic;
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
+
+.quote__source {
+  font-size: var(--fs-caption);
+  color: var(--color-text-tertiary);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}

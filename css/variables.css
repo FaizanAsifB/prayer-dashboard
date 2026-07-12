@@ -1,0 +1,103 @@
+/**
+ * variables.css
+ * ---------------------------------------------------------------------------
+ * Design token system for the dashboard.
+ *
+ * Palette rationale: a near-black, faintly green-tinted background (not
+ * pure #000 — pure black on an always-on LCD looks flat and shows dust/
+ * fingerprints under ambient light; a whisper of the accent hue in the
+ * dark tones ties the whole surface together, the way Nest Hub's UI
+ * tints its blacks toward whatever the ambient card's dominant colour is).
+ * One accent green is used with restraint — for the current-prayer rail,
+ * the countdown value, and small live indicators only, never as a large
+ * fill, so it reads as "signal" rather than decoration.
+ *
+ * Type: Manrope for anything numeric/large (clock, countdown, temperature)
+ * because its geometric, slightly wide letterforms stay crisp at a
+ * multi-metre viewing distance. Inter for labels/body copy — a workhorse
+ * grotesque with excellent hinting at small sizes for secondary text.
+ */
+
+:root {
+  /* ---- Color: surfaces ---- */
+  --color-bg: #0a0f0d;
+  --color-bg-gradient: radial-gradient(120% 90% at 50% -10%, #101c17 0%, #0a0f0d 55%);
+  --color-surface: #101613;
+  --color-surface-raised: #141c19;
+  --color-border: rgba(255, 255, 255, 0.07);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
+
+  /* ---- Color: text ---- */
+  --color-text-primary: #f3f6f4;
+  --color-text-secondary: #9fada6;
+  --color-text-tertiary: #6d7a74;
+
+  /* ---- Color: accent (single green, per brief) ---- */
+  --color-accent: #34e6a0;
+  --color-accent-dim: #1f8a5f;
+  --color-accent-wash: rgba(52, 230, 160, 0.12);
+  --color-accent-contrast: #04140d;
+
+  /* ---- Color: status ---- */
+  --color-warning: #e6b34d;
+  --color-offline: #d9724f;
+
+  /* ---- Typography ---- */
+  --font-display: "Manrope", "Inter", system-ui, -apple-system, sans-serif;
+  --font-body: "Inter", "Manrope", system-ui, -apple-system, sans-serif;
+
+  --fs-clock: clamp(4.5rem, 14vw, 8.5rem);
+  --fs-hero-secondary: clamp(1.1rem, 3vw, 1.6rem);
+  --fs-countdown: clamp(2.5rem, 8vw, 4rem);
+  --fs-temperature: clamp(2.25rem, 7vw, 3.5rem);
+  --fs-section-title: clamp(0.85rem, 2vw, 1rem);
+  --fs-prayer-name: clamp(1.15rem, 3.2vw, 1.5rem);
+  --fs-prayer-time: clamp(1.15rem, 3.2vw, 1.5rem);
+  --fs-body: clamp(0.95rem, 2.4vw, 1.1rem);
+  --fs-caption: clamp(0.75rem, 2vw, 0.9rem);
+
+  --lh-tight: 1.05;
+  --lh-normal: 1.4;
+  --tracking-wide: 0.08em;
+  --tracking-wider: 0.16em;
+
+  /* ---- Spacing scale ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.75rem;
+  --space-8: 3.5rem;
+  --space-9: 4.5rem;
+
+  /* ---- Radius & elevation ---- */
+  --radius-sm: 14px;
+  --radius-md: 22px;
+  --radius-lg: 32px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 20px 60px -20px rgba(0, 0, 0, 0.55), 0 2px 10px rgba(0, 0, 0, 0.3);
+  --shadow-glow-accent: 0 0 24px 0 rgba(52, 230, 160, 0.35);
+
+  /* ---- Motion ---- */
+  --duration-fast: 160ms;
+  --duration-medium: 400ms;
+  --duration-slow: 900ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---- Layout ---- */
+  --page-padding: clamp(1.25rem, 5vw, 2.75rem);
+  --card-padding: clamp(1.25rem, 4vw, 2rem);
+  --max-content-width: 720px;
+}
+
+/* Respect system-level reduced motion preference everywhere. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-medium: 0ms;
+    --duration-slow: 0ms;
+  }
+}
